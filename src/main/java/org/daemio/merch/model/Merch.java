@@ -5,8 +5,13 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @JsonSerialize
+@Getter
+@Setter
 public class Merch {
     
     @Id

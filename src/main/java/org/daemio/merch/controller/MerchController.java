@@ -8,6 +8,7 @@ import org.daemio.merch.service.MerchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class MerchController {
     private MerchService merchService;
 
     @GetMapping
-    public ResponseEntity<MerchListResponse> getMerch() {
+    public ResponseEntity<MerchListResponse> getMerchList() {
         log.info("Getting some merch");
 
         List<Merch> list = merchService.getMerchList();
@@ -31,5 +32,14 @@ public class MerchController {
         response.setMerch(list);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{merchId}")
+    public ResponseEntity<Merch> getMerchItem(@PathVariable int merchId) {
+        log.info("Getting piece of merch");
+
+        Merch merch = merchService.getMerch(merchId);
+
+        return ResponseEntity.ok(merch);
     }
 }
