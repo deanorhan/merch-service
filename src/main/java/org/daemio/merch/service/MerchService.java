@@ -2,6 +2,7 @@ package org.daemio.merch.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.daemio.merch.dto.MerchPage;
 import org.daemio.merch.error.MerchNotFoundException;
