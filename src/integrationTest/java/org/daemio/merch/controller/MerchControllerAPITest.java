@@ -34,7 +34,10 @@ public class MerchControllerAPITest {
 
     @BeforeEach
     public void setup() {
+        Merch merch = new Merch();
+        merch.setId(5);
 
+        merchRepository.save(merch);
     }
 
     @AfterEach
@@ -43,9 +46,22 @@ public class MerchControllerAPITest {
     }
 
     @Test
-    public void whenCallingThenReturn() {
+    public void whenCalling_thenReturn() {
         given()
             .port(port)
+        .when()
+            .get("/merch")
+        .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .body("merch", hasSize(1));
+    }
+
+    @Test
+    public void whenCalling_thenReturnNoResults() {
+        given()
+            .port(port)
+            .queryParam("page", 2)
         .when()
             .get("/merch")
         .then()
@@ -56,11 +72,6 @@ public class MerchControllerAPITest {
 
     @Test
     public void whenCallingForMerch_thenGetMerchItem() {
-        Merch merch = new Merch();
-        merch.setId(5);
-
-        merchRepository.save(merch);
-
         given()
             .port(port)
         .when()
