@@ -20,7 +20,7 @@ sourceSets {
 
 configurations {
 	integrationTestImplementation.extendsFrom testImplementation
-    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+	integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
 
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -52,12 +52,12 @@ dependencies {
 }
 
 task integrationTest(type: Test) {
-    description = 'Runs integration tests.'
-    group = 'verification'
+	description = 'Runs integration tests.'
+	group = 'verification'
 
-    testClassesDirs = sourceSets.integrationTest.output.classesDirs
-    classpath = sourceSets.integrationTest.runtimeClasspath
-    shouldRunAfter test
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+	classpath = sourceSets.integrationTest.runtimeClasspath
+	shouldRunAfter test
 }
 
 tasks.withType(Test) {

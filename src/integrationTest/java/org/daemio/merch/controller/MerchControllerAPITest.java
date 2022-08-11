@@ -51,7 +51,7 @@ public class MerchControllerAPITest {
         .then()
             .statusCode(HttpStatus.OK.value())
             .contentType(ContentType.JSON)
-            .body("merch.size()", is(0));
+            .body("merch", hasSize(0));
     }
 
     @Test

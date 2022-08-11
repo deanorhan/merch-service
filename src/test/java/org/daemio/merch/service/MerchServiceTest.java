@@ -68,6 +68,7 @@ public class MerchServiceTest {
     public void givenMerchNotThere_whenGettingMerchItem_thenThrowNotFoundException() {
         when(merchRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-        assertThrows(MerchNotFoundException.class, () -> service.getMerch(1));
+        assertThrows(MerchNotFoundException.class,
+            () -> service.getMerch(1), "Exception not thrown when no merch");
     }
 }
