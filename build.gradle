@@ -9,7 +9,19 @@ group = 'org.daemio'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+sourceSets {
+	integrationTest {
+		java {
+			compileClasspath += main.output + test.output
+			runtimeClasspath += main.output + test.output
+		}
+	}
+}
+
 configurations {
+	integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -32,13 +44,31 @@ dependencies {
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	testImplementation('io.rest-assured:rest-assured:5.1.1') {
+	integrationTestImplementation('io.rest-assured:rest-assured:5.1.1') {
 		exclude group: 'org.apache.groovy', module: 'groovy'
 		exclude group: 'org.apache.groovy', module: 'groovy-json'
 		exclude group: 'org.apache.groovy', module: 'groovy-xml'
 	}
 }
 
-test {
+task integrationTest(type: Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+}
+
+tasks.withType(Test) {
 	useJUnitPlatform()
 }
+
+jacocoTestReport {
+	getExecutionData().setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
+	reports {
+		xml.required = true
+	}
+}
+
+check.dependsOn integrationTest
