@@ -92,4 +92,17 @@ public class MerchControllerAPITest {
             .contentType(ContentType.JSON)
             .body("id", is(merchId));
     }
+
+    @Test
+    public void givenMerchNotThere_whenCallingForMerch_thenGetNotFound() {
+        var merchId = 17;
+        
+        given()
+            .port(port)
+            .pathParam("merchId", merchId)
+        .when()
+            .get("/merch/{merchId}")
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
+    }
 }
