@@ -1,4 +1,6 @@
-package org.daemio.merch.model;
+package org.daemio.merch.domain;
+
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,4 +18,6 @@ public class Merch {
     
     @Id
     private Integer id;
+    private String title;
+    private BigDecimal price;
 }

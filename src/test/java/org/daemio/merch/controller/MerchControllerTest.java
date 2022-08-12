@@ -17,9 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 
-import org.daemio.merch.dto.MerchPage;
+import org.daemio.merch.domain.Merch;
 import org.daemio.merch.error.MerchNotFoundException;
-import org.daemio.merch.model.Merch;
+import org.daemio.merch.model.MerchPage;
 import org.daemio.merch.service.MerchService;
 
 @WebMvcTest(MerchController.class)

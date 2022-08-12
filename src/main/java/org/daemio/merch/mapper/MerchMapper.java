@@ -1,7 +1,7 @@
 package org.daemio.merch.mapper;
 
-import org.daemio.merch.dto.MerchPage;
-import org.daemio.merch.model.Merch;
+import org.daemio.merch.domain.Merch;
+import org.daemio.merch.model.MerchPage;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 

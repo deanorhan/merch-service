@@ -3,7 +3,7 @@ package org.daemio.merch.controller;
 import static org.hamcrest.Matchers.*;
 
 import org.daemio.merch.MerchServiceApplication;
-import org.daemio.merch.model.Merch;
+import org.daemio.merch.domain.Merch;
 import org.daemio.merch.repository.MerchRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
