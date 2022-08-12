@@ -10,13 +10,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
 
-import org.daemio.merch.dto.MerchListResponse;
+import org.daemio.merch.dto.MerchPage;
 import org.daemio.merch.error.MerchNotFoundException;
 import org.daemio.merch.model.Merch;
 import org.daemio.merch.service.MerchService;
@@ -38,12 +39,34 @@ public class MerchControllerTest {
     @Test
     public void whenGetMerch_thenReturnSuccessfulList() throws Exception {
         var merch = new Merch();
-        MerchListResponse expectedResponse = new MerchListResponse();
+        var expectedResponse = new MerchPage();
         expectedResponse.setMerch(Arrays.asList(merch));
 
-        when(merchService.getMerchList()).thenReturn(Arrays.asList(merch));
+        when(merchService.getMerchPage(any())).thenReturn(expectedResponse);
 
         mvc.perform(get("/merch"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.merch").isArray())
+            .andExpect(content().json(mapper.writeValueAsString(expectedResponse)));
+    }
+
+    @DisplayName("given some page number when calling for a list of merch then the " +
+        "service should return succesfully and the response should indicate the page " +
+        "and have a list of merch")
+    @Test
+    public void givenPageNo_whenGetMerch_thenReturnSuccessfulList() throws Exception {
+        var page = 2;
+        var merch = new Merch();
+        var expectedResponse = new MerchPage();
+        expectedResponse.setMerch(Arrays.asList(merch));
+        expectedResponse.setPage(page);
+        expectedResponse.setSize(25);
+        expectedResponse.setTotalPages(2);
+
+        when(merchService.getMerchPage(any())).thenReturn(expectedResponse);
+
+        mvc.perform(get("/merch").queryParam("page", Integer.toString(page)))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.merch").isArray())

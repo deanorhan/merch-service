@@ -34,7 +34,10 @@ public class MerchControllerAPITest {
 
     @BeforeEach
     public void setup() {
+        Merch merch = new Merch();
+        merch.setId(5);
 
+        merchRepository.save(merch);
     }
 
     @AfterEach
@@ -43,7 +46,7 @@ public class MerchControllerAPITest {
     }
 
     @Test
-    public void whenCallingThenReturn() {
+    public void whenCalling_thenReturn() {
         given()
             .port(port)
         .when()
@@ -51,23 +54,55 @@ public class MerchControllerAPITest {
         .then()
             .statusCode(HttpStatus.OK.value())
             .contentType(ContentType.JSON)
-            .body("merch", hasSize(0));
+            .body("merch", hasSize(1))
+            .body("page", is(0))
+            .body("size", is(25))
+            .body("totalPages", is(1));
+    }
+
+    @Test
+    public void whenCalling_thenReturnNoResults() {
+        var page = 2;
+
+        given()
+            .port(port)
+            .queryParam("page", page)
+        .when()
+            .get("/merch")
+        .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .body("merch", hasSize(0))
+            .body("page", is(page))
+            .body("size", is(25))
+            .body("totalPages", is(1));
     }
 
     @Test
     public void whenCallingForMerch_thenGetMerchItem() {
-        Merch merch = new Merch();
-        merch.setId(5);
-
-        merchRepository.save(merch);
-
+        var merchId = 5;
+        
         given()
             .port(port)
+            .pathParam("merchId", merchId)
         .when()
-            .get("/merch/5")
+            .get("/merch/{merchId}")
         .then()
             .statusCode(HttpStatus.OK.value())
             .contentType(ContentType.JSON)
-            .body("id", equalTo(5));
+            .body("id", is(merchId));
+    }
+
+    @Test
+    public void givenMerchNotThere_whenCallingForMerch_thenGetNotFound() {
+        var merchId = 17;
+        
+        given()
+            .port(port)
+            .pathParam("merchId", merchId)
+        .when()
+            .get("/merch/{merchId}")
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
     }
 }

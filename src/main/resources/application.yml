@@ -1,3 +1,8 @@
 spring:
     application:
         name: merch-service
+
+management:
+    endpoint:
+        health:
+            enabled: true
