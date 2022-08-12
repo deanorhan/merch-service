@@ -3,10 +3,10 @@ package org.daemio.merch.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.daemio.merch.dto.MerchPage;
+import org.daemio.merch.domain.Merch;
 import org.daemio.merch.error.MerchNotFoundException;
 import org.daemio.merch.mapper.MerchMapper;
-import org.daemio.merch.model.Merch;
+import org.daemio.merch.model.MerchPage;
 import org.daemio.merch.repository.MerchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

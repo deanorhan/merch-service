@@ -13,10 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.daemio.merch.dto.MerchPage;
+import org.daemio.merch.domain.Merch;
 import org.daemio.merch.error.MerchNotFoundException;
 import org.daemio.merch.mapper.MerchMapper;
-import org.daemio.merch.model.Merch;
+import org.daemio.merch.model.MerchPage;
 import org.daemio.merch.repository.MerchRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

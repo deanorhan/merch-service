@@ -1,7 +1,7 @@
 package org.daemio.merch.controller;
 
-import org.daemio.merch.dto.MerchPage;
-import org.daemio.merch.model.Merch;
+import org.daemio.merch.domain.Merch;
+import org.daemio.merch.model.MerchPage;
 import org.daemio.merch.service.MerchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

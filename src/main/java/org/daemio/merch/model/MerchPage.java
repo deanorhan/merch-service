@@ -1,9 +1,9 @@
-package org.daemio.merch.dto;
+package org.daemio.merch.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.daemio.merch.model.Merch;
+import org.daemio.merch.domain.Merch;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
