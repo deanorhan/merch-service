@@ -54,31 +54,42 @@ public class MerchControllerAPITest {
         .then()
             .statusCode(HttpStatus.OK.value())
             .contentType(ContentType.JSON)
-            .body("merch", hasSize(1));
+            .body("merch", hasSize(1))
+            .body("page", is(0))
+            .body("size", is(25))
+            .body("totalPages", is(1));
     }
 
     @Test
     public void whenCalling_thenReturnNoResults() {
+        var page = 2;
+
         given()
             .port(port)
-            .queryParam("page", 2)
+            .queryParam("page", page)
         .when()
             .get("/merch")
         .then()
             .statusCode(HttpStatus.OK.value())
             .contentType(ContentType.JSON)
-            .body("merch", hasSize(0));
+            .body("merch", hasSize(0))
+            .body("page", is(page))
+            .body("size", is(25))
+            .body("totalPages", is(1));
     }
 
     @Test
     public void whenCallingForMerch_thenGetMerchItem() {
+        var merchId = 5;
+        
         given()
             .port(port)
+            .pathParam("merchId", merchId)
         .when()
-            .get("/merch/5")
+            .get("/merch/{merchId}")
         .then()
             .statusCode(HttpStatus.OK.value())
             .contentType(ContentType.JSON)
-            .body("id", equalTo(5));
+            .body("id", is(merchId));
     }
 }

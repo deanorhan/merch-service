@@ -51,16 +51,22 @@ public class MerchControllerTest {
             .andExpect(content().json(mapper.writeValueAsString(expectedResponse)));
     }
 
-    @DisplayName("")
+    @DisplayName("given some page number when calling for a list of merch then the " +
+        "service should return succesfully and the response should indicate the page " +
+        "and have a list of merch")
     @Test
     public void givenPageNo_whenGetMerch_thenReturnSuccessfulList() throws Exception {
+        var page = 2;
         var merch = new Merch();
         var expectedResponse = new MerchPage();
         expectedResponse.setMerch(Arrays.asList(merch));
+        expectedResponse.setPage(page);
+        expectedResponse.setSize(25);
+        expectedResponse.setTotalPages(2);
 
         when(merchService.getMerchPage(any())).thenReturn(expectedResponse);
 
-        mvc.perform(get("/merch").queryParam("pageNo", "2"))
+        mvc.perform(get("/merch").queryParam("page", Integer.toString(page)))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.merch").isArray())
