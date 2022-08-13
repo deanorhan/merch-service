@@ -28,11 +28,11 @@ public class MerchControllerTest {
 
     @Autowired
     private MockMvc mvc;
+    @Autowired
+    private ObjectMapper mapper;
 
     @MockBean
     private MerchService merchService;
-
-    private final ObjectMapper mapper = new ObjectMapper();
 
     @DisplayName("when calling for a list of merch then the service should return " +
         "succussfully and the response should be an array of merch")

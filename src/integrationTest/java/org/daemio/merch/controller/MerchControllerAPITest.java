@@ -2,6 +2,8 @@ package org.daemio.merch.controller;
 
 import static org.hamcrest.Matchers.*;
 
+import java.math.BigDecimal;
+
 import org.daemio.merch.MerchServiceApplication;
 import org.daemio.merch.domain.Merch;
 import org.daemio.merch.repository.MerchRepository;
@@ -36,6 +38,8 @@ public class MerchControllerAPITest {
     public void setup() {
         Merch merch = new Merch();
         merch.setId(5);
+        merch.setTitle("Amazing band shirt");
+        merch.setPrice(BigDecimal.valueOf(5));
 
         merchRepository.save(merch);
     }

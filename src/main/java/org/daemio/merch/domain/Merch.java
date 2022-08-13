@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -18,6 +19,10 @@ public class Merch {
     
     @Id
     private Integer id;
+
+    @NotNull
     private String title;
+    
+    @NotNull
     private BigDecimal price;
 }
