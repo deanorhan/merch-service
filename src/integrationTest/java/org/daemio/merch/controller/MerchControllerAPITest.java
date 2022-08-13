@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 import org.daemio.merch.MerchServiceApplication;
 import org.daemio.merch.domain.Merch;
+import org.daemio.merch.domain.MerchStatus;
 import org.daemio.merch.repository.MerchRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +40,7 @@ public class MerchControllerAPITest {
         Merch merch = new Merch();
         merch.setId(5);
         merch.setTitle("Amazing band shirt");
+        merch.setStatus(MerchStatus.SOLD_OUT);
         merch.setPrice(BigDecimal.valueOf(5));
 
         merchRepository.save(merch);
