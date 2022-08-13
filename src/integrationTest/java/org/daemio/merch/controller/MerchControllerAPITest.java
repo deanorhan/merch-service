@@ -15,9 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-
-import io.restassured.http.ContentType;
 
 import static io.restassured.RestAssured.*;
 
@@ -57,7 +56,7 @@ public class MerchControllerAPITest {
             .get("/merch")
         .then()
             .statusCode(HttpStatus.OK.value())
-            .contentType(ContentType.JSON)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("merch", hasSize(1))
             .body("page", is(0))
             .body("size", is(25))
@@ -75,7 +74,7 @@ public class MerchControllerAPITest {
             .get("/merch")
         .then()
             .statusCode(HttpStatus.OK.value())
-            .contentType(ContentType.JSON)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("merch", hasSize(0))
             .body("page", is(page))
             .body("size", is(25))
@@ -93,7 +92,7 @@ public class MerchControllerAPITest {
             .get("/merch/{merchId}")
         .then()
             .statusCode(HttpStatus.OK.value())
-            .contentType(ContentType.JSON)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("id", is(merchId));
     }
 
@@ -107,6 +106,7 @@ public class MerchControllerAPITest {
         .when()
             .get("/merch/{merchId}")
         .then()
-            .statusCode(HttpStatus.NOT_FOUND.value());
+            .statusCode(HttpStatus.NOT_FOUND.value())
+            .contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
     }
 }
