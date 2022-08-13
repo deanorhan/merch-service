@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.daemio.merch.domain.Merch;
-import org.daemio.merch.error.MerchNotFoundException;
+import org.daemio.merch.error.MerchNotFoundProblem;
 import org.daemio.merch.mapper.MerchMapper;
 import org.daemio.merch.model.MerchPage;
 import org.daemio.merch.repository.MerchRepository;
@@ -46,7 +46,7 @@ public class MerchService {
 
         var merch = repo.findById(merchId);
         if (merch.isEmpty()) {
-            throw new MerchNotFoundException();
+            throw new MerchNotFoundProblem();
         }
 
         return merch.get();
