@@ -6,9 +6,12 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -29,14 +32,20 @@ public class Merch {
     @NotBlank
     @Column(nullable = false)
     private String title;
+
+    @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    private MerchStatus status;
     
     @NotNull
     @Column(nullable = false)
     private BigDecimal price;
 
+    @PastOrPresent
     @CreatedDate
     private LocalDateTime createdTime;
 
+    @PastOrPresent
     @LastModifiedDate
     private LocalDateTime modifiedTime;
 }
