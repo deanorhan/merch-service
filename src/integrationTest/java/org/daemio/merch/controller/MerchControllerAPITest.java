@@ -94,7 +94,9 @@ public class MerchControllerAPITest {
         .then()
             .statusCode(HttpStatus.OK.value())
             .contentType(ContentType.JSON)
-            .body("id", is(merchId));
+            .body("id", is(merchId))
+            .body("createdTime", is(notNullValue()))
+            .body("modifiedTime", is(notNullValue()));
     }
 
     @Test
