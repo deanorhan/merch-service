@@ -45,7 +45,7 @@ public class Merch {
     private MerchStatus status;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "merch")
-    private List<Thumbnail> images;
+    private List<Image> images;
     
     @NotNull
     @Column(nullable = false)

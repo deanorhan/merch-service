@@ -16,7 +16,7 @@ import lombok.Setter;
 @Table(name = "images", indexes = { @Index(name = "merch_idx", columnList = "merch_id") })
 @Getter
 @Setter
-public class Thumbnail {
+public class Image {
 
     @Id
     @Column(name = "image_id")
@@ -27,5 +27,8 @@ public class Thumbnail {
     private Merch merch;
 
     @NotBlank
+    @Column(nullable = false)
     private String uri;
+
+    private String title;
 }
