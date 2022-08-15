@@ -4,7 +4,8 @@ plugins {
 	id 'java'
 	id 'jacoco'
 	id 'org.owasp.dependencycheck' version '7.1.1'
-	// id 'net.ltgt.apt-eclipse' version "0.21"
+	// Fucking buildship
+	id 'eclipse'
 }
 
 group = 'org.daemio'
@@ -78,3 +79,15 @@ jacocoTestReport {
 }
 
 check.dependsOn integrationTest
+
+// This and the eclipse plugin inclusion are only here because buildship is shit
+eclipse {
+	classpath {
+		containers 'org.eclipse.buildship.core.gradleclasspathcontainer'
+		file.whenMerged { cp ->
+			def entries = cp.entries;
+			def src = new org.gradle.plugins.ide.eclipse.model.SourceFolder('build/generated/sources/annotationProcessor/java/main/', null)
+			entries.add(src)
+		} 
+	}
+}
