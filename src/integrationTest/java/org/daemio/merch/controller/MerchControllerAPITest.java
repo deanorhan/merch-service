@@ -38,7 +38,6 @@ public class MerchControllerAPITest {
     @BeforeEach
     public void setup() {
         Merch merch = new Merch();
-        merch.setId(5);
         merch.setTitle("Amazing band shirt");
         merch.setStatus(MerchStatus.SOLD_OUT);
         merch.setPrice(BigDecimal.valueOf(5));
@@ -86,7 +85,7 @@ public class MerchControllerAPITest {
 
     @Test
     public void whenCallingForMerch_thenGetMerchItem() {
-        var merchId = 5;
+        var merchId = merchRepository.findAll().get(0).getId();
         
         given()
             .port(port)

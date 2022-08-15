@@ -1,6 +1,10 @@
 spring:
+    profiles:
+        active: ${DEPLOY_ENV:default}
     application:
         name: merch-service
+    jpa:
+        open-in-view: false
 
 management:
     endpoint:

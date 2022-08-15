@@ -1,0 +1,1 @@
+insert into merch (title, status, price, created_at, modified_at) values ('mooo', 0, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

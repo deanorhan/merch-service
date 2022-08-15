@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.daemio.merch.domain.Merch;
+import org.daemio.merch.domain.MerchStatus;
+import org.daemio.merch.domain.Merch_;
 import org.daemio.merch.error.MerchNotFoundException;
 import org.daemio.merch.mapper.MerchMapper;
 import org.daemio.merch.model.MerchPage;
@@ -37,6 +39,16 @@ public class MerchService {
         log.info("Getting a page of merch from data");
 
         var results = repo.findAll(pageable);
+
+        return mapper.pageToResponse(results);
+    }
+
+    public MerchPage getMerchPage(Pageable pageable, List<MerchStatus> statusList) {
+        log.info("Getting a page of merch from data");
+
+        var results = repo.findAll((root, query, builder) -> {
+            return root.get(Merch_.status).in(statusList);
+        }, pageable);
 
         return mapper.pageToResponse(results);
     }
