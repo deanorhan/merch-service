@@ -10,13 +10,16 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -33,6 +36,7 @@ import lombok.Setter;
 public class Merch {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "merch_id")
     private Integer id;
 
@@ -44,18 +48,19 @@ public class Merch {
     @Enumerated(EnumType.ORDINAL)
     private MerchStatus status;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "merch")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "merch", fetch = FetchType.EAGER)
     private List<Image> images;
     
     @NotNull
+    @Positive
     @Column(nullable = false)
     private BigDecimal price;
 
-    @PastOrPresent
     @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdTime;
 
-    @PastOrPresent
     @LastModifiedDate
+    @Column(name = "modified_at")
     private LocalDateTime modifiedTime;
 }
