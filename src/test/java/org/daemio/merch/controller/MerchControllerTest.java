@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -100,5 +101,21 @@ public class MerchControllerTest {
 
         mvc.perform(get("/merch/{merchId}", merchId))
             .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void whenPostMerch_thenGetBackLocation() throws Exception {
+        var merchId = 87;
+        var merch = new Merch();
+        merch.setId(merchId);
+
+        when(merchService.saveMerch(any())).thenReturn(merch);
+
+        mvc.perform(post("/merch")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(merch)))
+            .andExpect(status().isCreated())
+            .andExpect(header().exists(HttpHeaders.LOCATION))
+            .andExpect(header().string(HttpHeaders.LOCATION, "/merch/87"));
     }
 }

@@ -2,6 +2,7 @@ package org.daemio.merch.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -49,7 +50,7 @@ public class Merch {
     private MerchStatus status;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "merch", fetch = FetchType.EAGER)
-    private List<Image> images;
+    private List<Image> images = new ArrayList<>();
     
     @NotNull
     @Positive

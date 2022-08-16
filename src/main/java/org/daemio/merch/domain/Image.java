@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,7 @@ public class Image {
     @Column(name = "image_id")
     private int id;
 
+    @Hidden
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "merch_id", nullable = false)
     private Merch merch;
