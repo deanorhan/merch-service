@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 import java.math.BigDecimal;
 
 import org.daemio.merch.MerchServiceApplication;
+import org.daemio.merch.domain.Image;
 import org.daemio.merch.domain.Merch;
 import org.daemio.merch.domain.MerchStatus;
 import org.daemio.merch.repository.MerchRepository;
@@ -15,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 
 import io.restassured.http.ContentType;
@@ -111,5 +114,29 @@ public class MerchControllerAPITest {
             .get("/merch/{merchId}")
         .then()
             .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    public void whenPostMerch_thenMerchIsSaved() {
+        Merch merch = new Merch();
+        merch.setTitle("Another amazing band shirt");
+        merch.setStatus(MerchStatus.LOADED);
+        merch.setPrice(BigDecimal.valueOf(17));
+
+        var thumb = new Image();
+        thumb.setTitle("jdshfksdhf");
+        thumb.setUri("dfksdfgsdjghf");
+        merch.getImages().add(thumb);
+
+        given()
+            .port(port)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .body(merch)
+        .when()
+            .post("/merch")
+        .then()
+            .statusCode(HttpStatus.CREATED.value())
+            .header(HttpHeaders.LOCATION, is(notNullValue()))
+            .header(HttpHeaders.LOCATION, matchesRegex("^/merch/\\d+$"));
     }
 }

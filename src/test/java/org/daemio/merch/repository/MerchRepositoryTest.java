@@ -2,11 +2,17 @@ package org.daemio.merch.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.math.BigDecimal;
+
+import org.daemio.merch.domain.Merch;
+import org.daemio.merch.domain.MerchStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@DataJpaTest
+@DataJpaTest(properties = {"spring.jpa.defer-datasource-initialization=true"})
+@EnableJpaAuditing
 public class MerchRepositoryTest {
 
     @Autowired
@@ -15,5 +21,18 @@ public class MerchRepositoryTest {
     @Test
     public void checkAllIsWell() {
         assertNotNull(repo, "Repository was not injected");
+    }
+
+    @Test
+    public void whenSavingMerch_thenAuditDatesSet() {
+        var merch = new Merch()
+            .setTitle("Tiele")
+            .setStatus(MerchStatus.LOADED)
+            .setPrice(BigDecimal.valueOf(7));
+
+        var savedMerch = repo.save(merch);
+
+        assertNotNull(savedMerch.getCreatedTime(), "Created time was not set");
+        assertNotNull(savedMerch.getModifiedTime(), "Modified time was not set");
     }
 }

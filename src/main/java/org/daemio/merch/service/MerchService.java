@@ -63,4 +63,10 @@ public class MerchService {
 
         return merch.get();
     }
+
+    public Merch saveMerch(Merch merch) {
+        merch.getImages().forEach(i -> i.setMerch(merch));
+
+        return repo.save(merch);
+    }
 }
