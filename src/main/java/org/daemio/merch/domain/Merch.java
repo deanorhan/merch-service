@@ -28,11 +28,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "merch", indexes = { @Index(name = "status_idx", columnList = "status") })
 @Getter
 @Setter
+@Accessors(chain = true)
 @EntityListeners({ AuditingEntityListener.class })
 public class Merch {
     
