@@ -1,3 +1,9 @@
 spring:
-    jpa:
-        defer-datasource-initialization: true
+  jpa:
+    defer-datasource-initialization: true
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true

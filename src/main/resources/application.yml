@@ -1,12 +1,17 @@
-spring:
-    profiles:
-        active: ${DEPLOY_ENV:default}
-    application:
-        name: merch-service
-    jpa:
-        open-in-view: false
+app:
+  security:
+    role:
+      admin: "ADMIN"
+      fan: FAN
+      vendor: "VENDOR"
 
-management:
-    endpoint:
-        health:
-            enabled: true
+spring:
+  profiles:
+    active: ${DEPLOY_ENV:default}
+  application:
+    name: merch-service
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  jpa:
+    open-in-view: false

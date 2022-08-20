@@ -1,6 +1,10 @@
 package org.daemio.merch.controller;
 
-import static org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.matchesRegex;
+import static org.hamcrest.Matchers.notNullValue;
 
 import java.math.BigDecimal;
 
@@ -19,11 +23,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
 import io.restassured.http.ContentType;
-
-import static io.restassured.RestAssured.*;
 
 @SpringBootTest(
     classes = MerchServiceApplication.class,
@@ -117,6 +120,7 @@ public class MerchControllerAPITest {
     }
 
     @Test
+    @WithMockUser(roles = { "VENDOR" })
     public void whenPostMerch_thenMerchIsSaved() {
         Merch merch = new Merch();
         merch.setTitle("Another amazing band shirt");
@@ -131,6 +135,7 @@ public class MerchControllerAPITest {
         given()
             .port(port)
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .auth().preemptive().basic("test", "pass")
             .body(merch)
         .when()
             .post("/merch")

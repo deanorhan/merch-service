@@ -1,29 +1,37 @@
 package org.daemio.merch.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Arrays;
+
+import org.daemio.merch.config.RoleConfig;
+import org.daemio.merch.config.WebSecurityConfig;
+import org.daemio.merch.domain.Merch;
+import org.daemio.merch.error.MerchNotFoundException;
+import org.daemio.merch.model.MerchPage;
+import org.daemio.merch.service.MerchService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.Arrays;
-
-import org.daemio.merch.domain.Merch;
-import org.daemio.merch.error.MerchNotFoundException;
-import org.daemio.merch.model.MerchPage;
-import org.daemio.merch.service.MerchService;
-
 @WebMvcTest(MerchController.class)
+@Import({WebSecurityConfig.class, RoleConfig.class})
 @DisplayName("Merch controller tests")
 public class MerchControllerTest {
 
@@ -103,6 +111,7 @@ public class MerchControllerTest {
             .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(roles = { "VENDOR" })
     @Test
     public void whenPostMerch_thenGetBackLocation() throws Exception {
         var merchId = 87;
